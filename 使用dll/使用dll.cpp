@@ -54,6 +54,7 @@ int main(void)
 				}
 				ret = pReadData(sLine, length);
 				printf("[%lld]read size:%d,data:%.*s\n", GetTickCount64(), ret, ret, sLine);//截断输出，不以0字符结尾
+				while (getchar() != '\n') continue;
 			}
 			break;
 		case 'w'://write
@@ -61,6 +62,7 @@ int main(void)
 				std::streamsize length = std::cin.get((char *)sLine, LINE_SIZE, '\n').gcount();
 				ret = pWriteData(sLine, (unsigned int)length);//写入数据，不写入0字符
 				printf("[%lld]write size:%d\n", GetTickCount64(), ret);
+				while (getchar() != '\n') continue;
 			}
 			break;
 		case 's'://size
@@ -93,16 +95,20 @@ int main(void)
 			break;
 		case 'q'://quit
 			{
+				while (getchar() != '\n') continue;
 				FreeLibrary(hDll);
 				printf("[%lld]quit\n", GetTickCount64());
+				system("pause");
 				return 0;
 			}
 			break;
+		case '\n':
+			break;//防止当前c就是\n的情况
 		default://其它指令处理
 			{
-				while (c != '\n')//防止当前c就是\n的情况
+				while ((c = getchar()) != '\n')//清理整行
 				{
-					c = getchar();//清理整行
+					continue;
 				}
 				printf("[%lld]unknow command\n", GetTickCount64());
 			}

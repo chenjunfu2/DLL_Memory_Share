@@ -21,13 +21,13 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		if (g_refcount++ == 0)//此次操作无序加锁
+		if (g_refcount++ == 0)//第一次加载则创建
 		{
 			InitializeCriticalSection(&g_cs);//初始化关键段
 		}
 		break;
 	case DLL_PROCESS_DETACH:
-		if (--g_refcount == 0)//此次操作无序加锁
+		if (--g_refcount == 0)//最后一次卸载则删除
 		{
 			DeleteCriticalSection(&g_cs);//删除关键段
 		}
