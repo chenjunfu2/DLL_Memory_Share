@@ -97,11 +97,7 @@ extern "C" __declspec(dllexport) unsigned int FillData(int val, unsigned int siz
 
 extern "C" __declspec(dllexport) unsigned int ZeroData(unsigned int size)
 {
-	EnterCriticalSection(&g_cs);
-	unsigned int ret = FillData(0, size);
-	LeaveCriticalSection(&g_cs);
-
-	return ret;
+	return FillData(0, size);
 }
 
 extern "C" __declspec(dllexport) unsigned int SizeData(void)
